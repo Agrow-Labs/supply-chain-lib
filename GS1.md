@@ -114,37 +114,169 @@ gs1-date = tstr .regexp "([0-9]{2})([0-9]{2})([0-9]{2})"
 
 ### Application Identifiers (AI)
 
-**Note:** A GS1 EC82 string shall be defined in the table below
-as: `gs1ec82 = tstr .regexp "[A-Za-z0-9)(=!&,\/.;\<\>\"\'\*\-_\?%\+:]+"`
+**Note:** In the table below, if an AI key ends in `n` then `n` should be replaced with an integer
+from 0-6 implying the decimal point position.
 
-| AI   | Content                                                          | Format `[] = Optional`                 | Title/Label             | 
-|------|------------------------------------------------------------------|----------------------------------------|-------------------------|
-| 00   | Logistic Unit ID (SSCC)                                          | uint .size 18                          | SSCC                    |
-| 01   | Global Trade Item Number (GTIN)                                  | uint .size 14                          | GTIN                    |
-| 02   | Trade item inside a logistic unit                                | uint .size 14                          | CONTENT                 |
-| 10   | Batch or Lot Number                                              | gs1-ec82 .size (..20)                  | BATCH/LOT               |
-| 11   | Production Date                                                  | gs1-date                               | PROD DATE               |
-| 12   | Due Date (for payment)                                           | gs1-date                               | DUE DATE                |
-| 13   | Packaging Date                                                   | gs1-date                               | PACK DATE               |
-| 15   | Best Before Date                                                 | gs1-date                               | BEST BEFORE or BEST BY  |
-| 16   | Sell by Date                                                     | gs1-date                               | SELL BY                 |
-| 17   | Expiration Date                                                  | gs1-date                               | USE BY or EXPIRY        |
-| 20   | Internal Product Variant                                         | uint .size 2                           | VARIANT                 | 
-| 21   | Serial Number                                                    | gs1-ec82 .size (..20)                  | SERIAL                  | 
-| 22   | Consumer Product Variant                                         | gs1-ec82 .size (..20)                  | CPV                     | 
-| 235  | 3rd Party GTIN Extensions                                        | gs1-ec82 .size (..28)                  | TPX                     |
-| 240  | Manufacturer Additional ID                                       | gs1-ec82 .size (..30)                  | ADDITIONAL ID           |
-| 241  | Customer Part Number                                             | gs1-ec82 .size (..30)                  | CUST. PART No.          |
-| 242  | Made-to-Order Variation Number                                   | uint .size (..6)                       | MTO VARIANT             |
-| 243  | Packaging Component Number                                       | gs1-ec82 .size (..20)                  | PCN                     |
-| 250  | Secondary Serial Number                                          | gs1-ec82 .size (..30)                  | SECONDARY SERIAL        |
-| 251  | Reference to Source Entity                                       | gs1-ec82 .size (..30)                  | REF. TO SOURCE          |
-| 253  | Global Document Type ID (GDTI)                                   | uint .size 13 [+gs1-ec82 .size (..17)] | GDTI                    |
-| 254  | Global Location Number (GLN)                                     | gs1-ec82 .size (..20)                  | GLN EXTENSION COMPONENT |
-| 255  | Global Coupon Number (GCN)                                       | uint .size 13 [+uint .size (..12)]     | GCN                     |
-| 30   | Variable Count of Items                                          | uint .size (..8)                       | VAR. COUNT              |
-| 310n | Net weight, kilograms (variable measure trade item)              | uint .size 6                           | NET WEIGHT (kg)         |
-| 311n | Length or first dimensions, metres (variable measure trade item) | uint .size 6                           | LENGTH (m)              |
+| AI Key | Content                                                              | Format `[] = Optional`                | Title/Label                  | 
+|--------|----------------------------------------------------------------------|---------------------------------------|------------------------------|
+| 00     | Logistic Unit ID (SSCC)                                              | uint .size 18                         | SSCC                         |
+| 01     | Global Trade Item Number (GTIN)                                      | uint .size 14                         | GTIN                         |
+| 02     | Trade item inside a logistic unit                                    | uint .size 14                         | CONTENT                      |
+| 10     | Batch or Lot Number                                                  | gs1-ec82 .size (..20)                 | BATCH/LOT                    |
+| 11     | Production Date                                                      | gs1-date                              | PROD DATE                    |
+| 12     | Due Date (for payment)                                               | gs1-date                              | DUE DATE                     |
+| 13     | Packaging Date                                                       | gs1-date                              | PACK DATE                    |
+| 15     | Best Before Date                                                     | gs1-date                              | BEST BEFORE or BEST BY       |
+| 16     | Sell by Date                                                         | gs1-date                              | SELL BY                      |
+| 17     | Expiration Date                                                      | gs1-date                              | USE BY or EXPIRY             |
+| 20     | Internal Product Variant                                             | uint .size 2                          | VARIANT                      | 
+| 21     | Serial Number                                                        | gs1-ec82 .size (..20)                 | SERIAL                       | 
+| 22     | Consumer Product Variant                                             | gs1-ec82 .size (..20)                 | CPV                          | 
+| 235    | 3rd Party GTIN Extensions                                            | gs1-ec82 .size (..28)                 | TPX                          |
+| 240    | Manufacturer Additional ID                                           | gs1-ec82 .size (..30)                 | ADDITIONAL ID                |
+| 241    | Customer Part Number                                                 | gs1-ec82 .size (..30)                 | CUST. PART No.               |
+| 242    | Made-to-Order Variation Number                                       | uint .size (..6)                      | MTO VARIANT                  |
+| 243    | Packaging Component Number                                           | gs1-ec82 .size (..20)                 | PCN                          |
+| 250    | Secondary Serial Number                                              | gs1-ec82 .size (..30)                 | SECONDARY SERIAL             |
+| 251    | Reference to Source Entity                                           | gs1-ec82 .size (..30)                 | REF. TO SOURCE               |
+| 253    | Global Document Type ID (GDTI)                                       | uint .size 13 [gs1-ec82 .size (..17)] | GDTI                         |
+| 254    | Global Location Number (GLN)                                         | gs1-ec82 .size (..20)                 | GLN EXTENSION COMPONENT      |
+| 255    | Global Coupon Number (GCN)                                           | uint .size 13 [uint .size (..12)]     | GCN                          |
+| 30     | Variable Count of Items                                              | uint .size (..8)                      | VAR. COUNT                   |
+| 310n   | Net Weight, kilograms                                                | uint .size 6                          | NET WEIGHT (kg)              |
+| 311n   | Length or first dimensions, metres                                   | uint .size 6                          | LENGTH (m)                   |
+| 312n   | Width or second dimension, metres                                    | uint .size 6                          | WIDTH (m)                    |
+| 313n   | Height or third dimension metres                                     | uint .size 6                          | HEIGHT (m)                   |
+| 314n   | Area, square metres                                                  | uint .size 6                          | AREA (m<sup>2</sup>)         |
+| 315n   | Net Volume, litres                                                   | uint .size 6                          | NET VOLUME (l)               |
+| 316n   | Net Volume, cubic metres                                             | uint .size 6                          | NET VOLUME (m<sup>3</sup>)   |
+| 320n   | Net Weight, pounds                                                   | uint .size 6                          | NET WEIGHT (lb)              |
+| 321n   | Length or first dimension, inches                                    | uint .size 6                          | LENGTH (in)                  |
+| 322n   | Length or first dimension, feet                                      | uint .size 6                          | LENGTH (ft)                  |
+| 323n   | Length or first dimension, yards                                     | uint .size 6                          | LENGTH (yd)                  |
+| 324n   | Width or second dimension, inches                                    | uint .size 6                          | WIDTH (in)                   |
+| 325n   | Width or second dimension, feet                                      | uint .size 6                          | WIDTH (ft)                   |
+| 326n   | Width or second dimension, yards                                     | uint .size 6                          | WIDTH (yd)                   |
+| 327n   | Height or third dimension, inches                                    | uint .size 6                          | HEIGHT (in)                  |
+| 328n   | Height or third dimension, feet                                      | uint .size 6                          | HEIGHT (ft)                  |
+| 329n   | Height or third dimension, yards                                     | uint .size 6                          | HEIGHT (yd)                  |
+| 330n   | Logistic Weight, kilograms                                           | uint .size 6                          | GROSS WEIGHT (kg)            |
+| 331n   | Logistic Length or first dimension, metres                           | uint .size 6                          | LENGTH (m), log              |
+| 332n   | Logistic Width or second dimension, metres                           | uint .size 6                          | WIDTH (m), log               |
+| 333n   | Logistic Height or third dimension, metres                           | uint .size 6                          | HEIGHT (m), log              |
+| 334n   | Logistic Area, square metres                                         | uint .size 6                          | AREA (m<sup>2</sup>), log    |
+| 335n   | Logistic Volume, litres                                              | uint .size 6                          | VOLUME (l), log              |
+| 336n   | Logistic Volume, cubic metres                                        | uint .size 6                          | VOLUME (m<sup>3</sup>), log  |
+| 337n   | Kilograms per square metre                                           | uint .size 6                          | KG PER m<sup>2</sup>         |
+| 340n   | Logistic Weight, pounds                                              | uint .size 6                          | GROSS WEIGHT (lb)            |
+| 341n   | Logistic Length or first dimension, inches                           | uint .size 6                          | LENGTH (in), log             |
+| 342n   | Logistic Length or first dimension, feet                             | uint .size 6                          | LENGTH (ft), log             |
+| 343n   | Logistic Length or first dimension, yards                            | uint .size 6                          | LENGTH (yd), log             |
+| 344n   | Logistic Width or second dimension, inches                           | uint .size 6                          | WIDTH (in), log              |
+| 345n   | Logistic Width or second dimension, feet                             | uint .size 6                          | WIDTH (ft), log              |
+| 346n   | Logistic Width or second dimension, yards                            | uint .size 6                          | WIDTH (yd), log              |
+| 347n   | Logistic Height or third dimension, inches                           | uint .size 6                          | HEIGHT (in), log             |
+| 348n   | Logistic Height or third dimension, feet                             | uint .size 6                          | HEIGHT (ft), log             |
+| 349n   | Logistic Height or third dimension, yards                            | uint .size 6                          | HEIGHT (yd), log             |
+| 350n   | Area, square inches                                                  | uint .size 6                          | AREA (in<sup>2</sup>)        |
+| 351n   | Area, square feet                                                    | uint .size 6                          | AREA (ft<sup>2</sup>)        |
+| 352n   | Area, square yards                                                   | uint .size 6                          | AREA (yd<sup>2</sup>)        |
+| 353n   | Logistic Area, square inches                                         | uint .size 6                          | AREA (in<sup>2</sup>), log   |
+| 354n   | Logistic Area, square feet                                           | uint .size 6                          | AREA (ft<sup>2</sup>), log   |
+| 355n   | Logistic Area, square yards                                          | uint .size 6                          | AREA (yd<sup>2</sup>), log   |
+| 356n   | Net Weight, troy ounces                                              | uint .size 6                          | NET WEIGHT (t)               |
+| 357n   | Net Weight (or volume), ounces                                       | uint .size 6                          | NET VOLUME (oz)              |
+| 360n   | Net Voluem, quarts                                                   | uint .size 6                          | NET VOLUME (q)               |
+| 361n   | Net Volume, gallons U.S.                                             | uint .size 6                          | NET VOLUME (g)               |
+| 362n   | Logistic Volume, quarts                                              | uint .size 6                          | VOLUME (q), log              |
+| 363n   | Logistic Volume, gallons U.S.                                        | uint .size 6                          | VOLUME (g), log              |
+| 364n   | Net Volume, cubic inches                                             | uint .size 6                          | VOLUME (in<sup>3</sup>)      |
+| 365n   | Net Volume, cubic feet                                               | uint .size 6                          | VOLUME (ft<sup>3</sup>)      |
+| 366n   | Net Volume, cubic yards                                              | uint .size 6                          | VOLUME (yd<sup>3</sup>)      |
+| 367n   | Logistic Volume, cubic inches                                        | uint .size 6                          | VOLUME (in<sup>3</sup>), log |
+| 368n   | Logistic Volume, cubic feet                                          | uint .size 6                          | VOLUME (ft<sup>3</sup>), log |
+| 369n   | Logistic Volume, cubic yards                                         | uint .size 6                          | VOLUME (yd<sup>3</sup>), log |
+| 37     | Count of trade items or trade item pieces                            | uint .size (..8)                      | COUNT                        |
+| 390n   | Amount payable or coupon value (single currency)                     | uint .size (..15)                     | AMOUNT                       |
+| 391n   | Amount payable and ISO currency code                                 | uint .size 3 + uint .size (..15)      | AMOUNT                       |
+| 392n   | Amount payable for item (single currency)                            | uint .size (..15)                     | PRICE                        |
+| 393n   | Amount payable for item and ISO currency code                        | uint .size 3 + uint .size (..15)      | PRICE                        |
+| 394n   | Percentage discount of a coupon                                      | uint .size 4                          | PRCNT OFF                    |
+| 395n   | Amount payable per unit of measure (single currency)                 | uint .size 6                          | PRICE/UoM                    |
+| 400    | Customer's Purchase Order (PO) Number                                | gs1-ec82 .size (..30)                 | ORDER NUMBER                 |
+| 401    | Global Identification Number for Consignment (GINC)                  | gs1-ec82 .size (..30)                 | GINC                         |
+| 402    | Global Shipment Identification Number (GSIN)                         | uint .size 17                         | GSIN                         |
+| 403    | Routing Code                                                         | gs1-ec82 .size (..30)                 | ROUTE                        |
+| 410    | Ship To - Deliver To Global Location Number (GLN)                    | uint .size 13                         | SHIP TO LOC                  |
+| 411    | Bill To - Invoice To Global Location Number (GLN)                    | uint .size 13                         | BILL TO                      |
+| 412    | Purchased from Global Location Number (GLN)                          | uint .size 13                         | PURCHASE FROM                |
+| 413    | Ship For - Deliver For - Forward To Global Location Number (GLN)     | uint .size 13                         | SHIP FOR LOC                 |
+| 414    | Identification of a Physical Location - Global Location Number (GLN) | uint .size 13                         | LOC No.                      |
+| 415    | Global Location Number (GLN) of the invoicing party                  | uint .size 13                         | PAY TO                       |
+| 416    | Global Location Number (GLN) of the production or service location   | uint .size 13                         | PROD/SERV LOC                |
+| 417    | Party Global Location Number (GLN)                                   | uint .size 13                         | PARTY                        |
+| 420    | Ship To - Deliver To Postal Code with Single Postal Authority        | gs1-ec82 .size (..20)                 | SHIP TO POST                 |
+| 421    | Ship To - Deliver To Postal Code with ISO Country Code               | uint .size 3 + gs1-ec82 .size (..9)   | SHIP TO POST                 |
+| 422    | Country of Origin of a Trade Item (ISO)                              | uint .size 3                          | ORIGIN                       |
+| 423    | Country of Initial Processing                                        | uint .size 3 + uint .size (..12)      | COUNTRY - INITIAL PROCESS    |
+| 424    | Country of Processing                                                | uint .size 3                          | COUNTRY - PROCESS            |
+| 425    | Country of Disassembly                                               | uint .size 3 + uint .size (..12)      | COUNTRY - DISASSEMBLY        |
+| 426    | Country Covering Full Process Chain                                  | uint .size 3                          | COUNTRY - FULL PROCESS       |
+| 427    | Country subdivision of origin code for a trade item                  | gs1-ec82 .size (..3)                  | ORIGIN SUBDIVISION           |
+| 4300   | Ship To / Deliver To Company Name                                    | gs1-ec82 .size (..35)                 | SHIP TO COMP                 |
+| 4301   | Ship to / Deliver To Contact Name                                    | gs1-ec82 .size (..35)                 | SHIP TO NAME                 |
+| 4302   | Ship To / Deliver To Address Line 1                                  | gs1-ec82 .size (..64)                 | SHIP TO ADD1                 |
+| 4303   | Ship To / Deliver To Address Line 2                                  | gs1-ec82 .size (..64)                 | SHIP TO ADD2                 |
+| 4304   | Ship To / Deliver To Suburb                                          | gs1-ec82 .size (..64)                 | SHIP TO SUB                  |
+| 4305   | Ship To / Deliver To Locality                                        | gs1-ec82 .size (..64)                 | SHIP TO LOC                  |
+| 4306   | Ship To / Deliver To Region                                          | gs1-ec82 .size (..64)                 | SHIP TO REG                  |
+| 4307   | Ship To / Deliver To Country Code                                    | gs1-ec82 .size 2                      | SHIP TO COUNTRY              |
+| 4308   | Ship To / Deliver To Telephone Number                                | gs1-ec82 .size (..30)                 | SHIP TO PHONE                |
+| 4309   | Ship To / Deliver To GEO Location                                    | uint .size 20                         | SHIP TO GEO                  |
+| 4310   | Return To Company Name                                               | gs1-ec82 .size (..35)                 | RTN TO COMP                  |
+| 4311   | Return To Contact Name                                               | gs1-ec82 .size (..35)                 | RTN TO NAME                  |
+| 4312   | Return To Address Line 1                                             | gs1-ec82 .size (..64)                 | RTN TO ADD1                  |
+| 4313   | Return To Address Line 2                                             | gs1-ec82 .size (..64)                 | RTN TO ADD2                  |
+| 4314   | Return To Suburb                                                     | gs1-ec82 .size (..64)                 | RTN TO SUB                   |
+| 4315   | Return To Locality                                                   | gs1-ec82 .size (..64)                 | RTN TO LOC                   |
+| 4316   | Return To Region                                                     | gs1-ec82 .size (..64)                 | RTN TO REG                   |
+| 4317   | Return To Country Code                                               | gs1-ec82 .size 2                      | RTN TO COUNTRY               |
+| 4318   | Return To Telephone Number                                           | gs1-ec82 .size (..30)                 | RTN TO PHONE                 |
+| 4319   | Return To GEO Location                                               | uint .size 20                         | RTN TO GEO                   |
+| 4320   | Service Code Description                                             | gs1-ec82 .size (..35)                 | SRV DESCRIPTION              |
+| 4321   | Dangerous Goods Flag                                                 | uint .size 1                          | DANGEROUS GOODS              |
+| 4322   | Authority to Leave Flag                                              | uint .size 1                          | AUTH LEAVE                   |
+| 4323   | Signature Required Flag                                              | uint .size 1                          | SIG REQUIRED                 |
+| 4324   | Not Before Delivery Date/Time                                        | uint .size 10                         | NBEF DEL DT                  |
+| 4325   | Not After Delivery Date/Time                                         | uint .size 10                         | NAFT DEL DT                  |
+| 4326   | Release Date                                                         | gs1-date                              | REL DATE                     |
+| 4330   | Maximum Temperature in Fahrenheit                                    | uint .size 6 + [ - ]                  | MAX TEMP F                   |
+| 4331   | Maximum Temperature in Celsius                                       | uint .size 6 + [ - ]                  | MAX TEMP C                   |
+| 4332   | Minimum Temperature in Fahrenheit                                    | uint .size 6 + [ - ]                  | MIN TEMP F                   |
+| 4333   | Minimum Temperature in Celsius                                       | uint .size 6 + [ - ]                  | MIN TEMP C                   |
+| 7001   | NATO Stock Number (NSN)                                              | uint .size 13                         | NSN                          |
+| 7002   | UNECE Meat Carcasses and Cuts Classification                         | gs1-ec82 .sie (..30)                  | MEAT CUT                     |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
+|        |                                                                      |                                       |                              |
 
 ## License
 
