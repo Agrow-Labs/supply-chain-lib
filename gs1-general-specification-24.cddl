@@ -1,0 +1,32 @@
+; Cardano GS1 General Specification Implementation
+; Version: 24.0.1
+
+; Definitions
+application-identifier = tstr .regexp "[0-9]{2,4}"
+
+; GS1 Date
+; Format: YYMMDD
+gs1-date = tstr .regexp "([0-9]{2})([0-9]{2})([0-9]{2})" .size 6
+
+; GS1 Date-Time
+; Format: YYMMDDHHIISS
+gs1-date-time = tstr .regexp "([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})" .size 10
+
+; GS1 Encodable Character Set 64
+gs1-ec64 = tstr .regexp "[A-Za-z0-9_=-]+"
+
+; GS1 Encodable Character Set 39
+gs1-ec39 = tstr .regexp "[A-Z0-9#\/-]+"
+
+; GS1 Encodable Character Set 82
+gs1-ec82 = tstr .regexp "[A-Za-z0-9)><(=!&,.;\"'*_?%+:\/-]+"
+
+; Fixed Integer
+gs1-fixed-int = tstr .regexp "[0-9]+"
+
+; The GS1 Datum shall consist of one or more application identifier keys and a
+; satisfactory value as defined by the General Specification. [./GS1.md]
+
+gs1-datum = {
+  * application-identifier => any
+}

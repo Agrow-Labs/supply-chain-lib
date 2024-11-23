@@ -16,10 +16,10 @@ Specifically, we focus on enhancing traceability for
 * [optimizing transportation and logistics](#transportation-and-logistics)
 * and [retail and consumer goods standards](#retail-and-consumer-goods)
 
-This will be done through the integration of **GS1** standards. GS1 is a
-global non-profit organization that develops and maintains standards for
-business communication, most notably the standards for barcodes used in retail
-supply chains. These standards were selected for their global usability,
+This will be done through the integration of **GS1** standards. GS1 is a global
+non-profit organization that develops and maintains standards for business
+communication, most notably the standards for barcodes used in retail supply
+chains. These standards were selected for their global usability,
 interoperability, and ability to promote transparent and efficient operations
 across the supply chain.
 
@@ -27,8 +27,12 @@ across the supply chain.
 
 The GS1 General Specifications Standard forms the backbone of our efforts,
 providing the framework for the unique and universal identification of products,
-services, and entities across various supply chains. Here's how each component
-specifically supports our targeted milestones:
+services, and entities across various supply chains.
+
+The complete description of the entire **GS1 General Standards** and their
+mapping to CBOR/JSON fields and values can be found at: [GS1.md](GS1.md)
+
+Here's how each component specifically supports our targeted milestones:
 
 ### Agricultural Products
 
@@ -37,7 +41,21 @@ specifically supports our targeted milestones:
 Central to our traceability initiatives, **GTIN** facilitates the global
 identification of agricultural products. This allows for inventory management,
 recall execution, and overall product traceability across **agricultural supply
-chains**, enabling stakeholders to trace product history from origin to consumer
+chains**, enabling stakeholders to trace product history from origin to
+consumer.
+
+##### Structure of a GTIN
+
+A GTIN consists of:
+
+* **GS1 Company Prefix:** Allocated by a GS1 Member Organization, identifies the
+  company (length depends on the number of items the company needs to number).
+* **Item Reference Number:** Assigned by the company to identify a specific
+  product.
+* **Check Digit:** A single digit used for error detection, calculated using the
+  [Modulo 10 algorithm](https://en.wikipedia.org/wiki/Luhn_algorithm).
+
+[Agriculture Product Example](GS1-agriculture.md)
 
 ### Transportation and Logistics
 
@@ -47,6 +65,11 @@ chains**, enabling stakeholders to trace product history from origin to consumer
 physical locations and legal entities. This standard aids in streamlining
 logistics operations and ensuring compliance with regulatory standards, thereby
 improving the efficiency and transparency of transportation networks.
+
+#### Structure of a GLN
+
+
+[Logistics/Transportation Product Example](GS1-logistics.md)
 
 ### Retail and Consumer Goods
 
@@ -217,5 +240,7 @@ This work is licensed under a
 [![CC BY 4.0][cc-by-image]][cc-by]
 
 [cc-by]: http://creativecommons.org/licenses/by/4.0/
+
 [cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
+
 [cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
