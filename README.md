@@ -68,6 +68,14 @@ improving the efficiency and transparency of transportation networks.
 
 #### Structure of a GLN
 
+A GLN consists of:
+
+* **GS1 Company Prefix:** Allocated by a GS1 Member Organization, identifies the
+  company (length depends on the number of items the company needs to number).
+* **Location Reference:** Assigned by the company to identify a specific
+  location within their system (e.g. a warehouse, department, or delivery dock)
+* **Check Digit:** A single digit used for error detection, calculated using
+  the [Modulo 10 algorithm](https://en.wikipedia.org/wiki/Luhn_algorithm).
 
 [Logistics/Transportation Product Example](GS1-logistics.md)
 
@@ -79,6 +87,17 @@ For **retail and consumer goods**, **GIAI** supports the management of assets
 beyond product tracking. It allows for the ability to track individual assets,
 facilitating improved supply chain utilization, and overall asset management
 within retail environments.
+
+#### Structure of a GIAI
+
+A GIAI consists of:
+
+* **GS1 Company Prefix:** Allocated by a GS1 Member Organization, identifies the
+  company (length depends on the number of items the company needs to number).
+* A variable length string (letters or numbers) taht is assigned by the company
+  to uniquely identify the item in question.
+
+[Retail and Consumer Goods Example](GS1-retail.md)
 
 ## Complementary Standards
 

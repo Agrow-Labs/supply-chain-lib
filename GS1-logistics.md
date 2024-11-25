@@ -1,4 +1,4 @@
-# GS1 Logistics Product Example
+# GS1 Logistics Example
 
 Building on the earlier [Agricultural Product Example](./GS1-agriculture.md), in
 this example we will ship our crate of apples from one location (the farm)
