@@ -1,4 +1,4 @@
-# GS1 General Specifications for Cardano Based Blockchains
+# GS1 General Specifications for Cardano-Based Blockchains
 
 [![CC BY 4.0][cc-by-shield]][cc-by]
 
@@ -10,9 +10,27 @@ This specification is based on
 the [GS1 General Specifications, Release 24.0](https://ref.gs1.org/standards/genspecs/)
 which were released in January 2024 and are the most recent as of this writing.
 
+---
+
+## Specification Scope and Intent
+
+This document is part of a **specification-first** effort to define a stable,
+interoperable, and CBOR-friendly representation of GS1 identifiers and related
+supply-chain data for use with Cardano-based blockchain systems.
+
+The goal of this specification is not to prescribe any single application
+architecture, but rather to provide a common language that independent systems
+can use to exchange and verify supply-chain information consistently.
+
+Future tooling (such as encoder/decoder libraries or validation utilities) may
+be introduced in later phases, but the primary focus of this repository is the
+definition and stabilization of the specification itself.
+
+---
+
 ## A Tale of Two Datas
 
-When it comes to data availability and interoperability there are two facets to
+When it comes to data availability and interoperability, there are two facets to
 consider:
 
 * Consumer-facing Product Data
@@ -24,9 +42,9 @@ One of the principle benefits of using blockchain for recording and tracking
 supply chain data is the ability to efficiently provide product lifecycle
 information to end consumers in ways that were never available before.
 
-While the standards currently being documented in this repository focus
-primarily on supply-chain facing information for interoperability, it's
-important to take a moment to take note of the amazing and thorough GS1 JSON-LD
+The standards currently being documented in this repository focus on
+supply-chain facing information for interoperability. It's important to take a
+moment to take note of the amazing and thorough GS1 JSON-LD
 Schema [Available at [https://www.gs1.org/voc/](https://www.gs1.org/voc/)]
 which provides a plethora of consumer-facing information.
 
@@ -36,27 +54,118 @@ a stretch goal for this repository.
 
 ### Supply Chain-Facing Product Data
 
-The reason that GS1 Standards have been the global standard for supply chains
-for the past ~50 years is because they are great at breaking down the barriers
-of international trade through thorough and useful standards for
-interoperability between various systems and facets of the supply and logistics
-chains for commerce.
+GS1 Standards have been the global standard for supply chains for the past ~50
+years. They are great at breaking down the barriers of international trade
+through thorough and useful standards for interoperability between various
+systems and facets of the supply and logistics chains for commerce.
 
 The standards defined here will initially focus on the General Specifications
 and some of the more specific standards to target unique industries.
+
+---
+
+## On-chain and Off-chain Data Model
+
+This specification defines the **structure of the data**, not the storage
+policy.
+
+In practice:
+
+* Smaller, identity-centric payloads may be embedded directly in on-chain
+  datums.
+* Larger payloads (or payloads that evolve frequently) may be stored off-chain,
+  with cryptographic references anchored on-chain.
+* Many real-world supply-chain systems will maintain the canonical record
+  off-chain while using the blockchain as a shared verification layer.
+
+The intent of standardizing a CBOR representation is that, regardless of storage
+strategy, the encoded data remains consistent and interoperable across systems.
+
+---
+
+## Interoperability and Non-Blockchain Participants
+
+Supply chains are inherently multi-party. In real-world traceability systems,
+not every participant will operate on the same technology stack, and many will
+not interact with blockchains directly.
+
+This work is grounded in GS1 identifiers so that:
+
+* Parties who do interact with Cardano can encode and validate the same
+  structures on-chain.
+* Parties who do not use blockchains can still exchange GS1 identifiers and
+  supply-chain metadata in a form that remains consistent with the on-chain
+  representation.
+* The shared language remains GS1, not a bespoke schema limited to a single
+  system or platform.
+
+---
+
+## Canonical CBOR Encoding Rules
+
+This specification defines a **canonical encoding** for all CBOR data produced
+under this standard. The goal is to ensure that the same logical structure
+always produces the same binary representation, removing ambiguity between
+independent implementations and preserving deterministic behavior for hashing,
+on-chain validation, and datum comparison.
+
+All CBOR encodings defined by this specification **MUST** follow these rules:
+
+1. **Definite-Length Encoding Only**  
+   Indefinite-length maps, arrays, strings, and byte strings are not permitted.
+
+2. **Deterministic Map Ordering**  
+   All map keys MUST be sorted in canonical order as defined by RFC 8949.
+
+3. **Minimal Integer Width**  
+   Integers MUST be encoded using the smallest possible CBOR width capable of
+   representing the value.
+
+4. **No Semantic Tags**  
+   CBOR semantic tags SHALL NOT be used unless explicitly specified by this
+   standard.
+
+5. **Text Encoding**  
+   All text values MUST be encoded as UTF-8 strings.
+
+These rules ensure that:
+
+- The encoded CBOR payload is stable across implementations
+- Hashes derived from the encoded data are reproducible
+- On-chain equality comparisons remain reliable
+- Off-chain systems can verify and reconstruct the same binary form
+
+All examples in this repository that include CBOR or hex-encoded CBOR are
+expected to conform to these canonical encoding rules.
+
+---
+
+### Application Identifier (AI) Key Encoding
+
+In JSON examples within this specification, Application Identifier (AI) keys may
+be shown as strings for human readability (e.g. `"01"`, `"413"`).
+
+In all CBOR encodings produced under this specification, **AI keys MUST be
+encoded as unsigned integers**, using the smallest integer width capable of
+representing the value.
+
+This requirement ensures deterministic map ordering, stable binary encoding, and
+consistent hashing behavior across independent implementations.
+
+---
 
 ## Limitations
 
 There will be, throughout the course of this integration, certain limitations or
 criteria that are imposed by one standard or another. The most-restrictive
-standard shall be used in order to maximize compatibility with going both
-on-chain and off-chain and to or from other GS1-compatible systems.
+standard shall be used to maximize compatibility with going both on-chain and
+off-chain and to or from other GS1-compatible systems.
 
 ### Acceptable Characters
 
 #### (GS1 Encodable Character Set 82)
 
-The GS1 Encodable Character Set 82 is defined in **Figure 7.11-1** of the GS1
+The GS1 Encodable Character Set 82 is defined in **Figure 7.11–1** of the GS1
 General Specification v24.0
 
 GS1 defines a subset of ISO 646 that consists of a total of 82 characters:
@@ -99,7 +208,7 @@ GS1 defines a subset of ISO 646 that consists of a total of 82 characters:
 **Regular Expression Pattern**
 
 ```regexp
-[A-Za-z0-9)><(=!&,.;\"'*_?%+:\/-]+
+[A-Za-z0-9)><(=!&,.;"'*_?%+:/-]+
 ```
 
 **CBOR CDDL Definition**
@@ -110,7 +219,7 @@ gs1-ec82 = tstr .regexp "[A-Za-z0-9)><(=!&,.;\"'*_?%+:\/-]+"
 
 #### (GS1 Encodable Character Set 39)
 
-The GS1 Encodable Character Set 39 is define in **Figure 7.11-2** Of the GS1
+The GS1 Encodable Character Set 39 is defined in **Figure 7.11–2** of the GS1
 General Specification v24.0
 
 GS1 defines a subset of ISO 646 that consists of a total of 39 characters:
@@ -138,7 +247,7 @@ GS1 defines a subset of ISO 646 that consists of a total of 39 characters:
 **Regular Expression Pattern**
 
 ```regexp 
-[A-Z0-9#\/-]+
+[A-Z0-9#/-]+
 ```
 
 **CBOR CDDL Definition**
@@ -149,7 +258,7 @@ gs1-ec39 = tstr .regexp "[A-Z0-9#\/-]+"
 
 #### (GS1 Encodable Character Set 64)
 
-The GS1 Encodable Character Set 64 is define in **Figure 7.11-3** of the GS1
+The GS1 Encodable Character Set 64 is defined in **Figure 7.11–3** of the GS1
 General Specification v24.0
 
 GS1 defines a subset of ISO 646 that consists of a total of 64 characters that
@@ -202,9 +311,9 @@ gs1-ec64 = tstr .regexp "[A-Za-z0-9_=-]+"
 
 Dates in GS1 must be specified as 6-character strings in the format of YYMMDD.
 Each field MUST be zero-padded. If a particular day of the month is not
-applicable the date should be specified as `00`
-and should be assumed to represent the last day of the month specified including
-adjustment for leap years.
+applicable, the date should be specified as `00` and should be assumed to
+represent the last day of the month specified including adjustment for leap
+years.
 
 ```
 YYMMDD
@@ -220,7 +329,8 @@ Fields that represent a date and time (date-time) should follow the same format
 as that for dates but also include the hours and minutes as the last four
 digits (total of 10 digits). The hours and minutes should be filled using a
 local 24-hour time (e.g., 2:30 a.m. = 0230, 2:30 p.m. = 1430). If it is not
-necessary to specify a time, these fields MUST be filled with nines (e.g. 9999).
+necessary to specify a time, these fields MUST be filled with nines (e.g.,
+9999).
 
 ```
 YYMMDDHHMM
@@ -241,10 +351,10 @@ gs1-date-time = tstr .regexp "([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})
 #### GS1 Company Prefix
 
 A GS1 Company Prefix is a unique string of four to twelve digits used to issue
-GS1 identification keys. The first digits are a valid GS1 Prefix and the length
+GS1 identification keys. The first digits are a valid GS1 Prefix, and the length
 of the GS1 Company Prefix SHALL be at least one longer than the length of the
-GS1 Prefix. The GS1 Company Prefix is issued by a GS1 Member Organisation or by
-GS1 Global Office, is based on a GS1 Prefix allocated to the issuer, and is
+GS1 Prefix. The GS1 Company Prefix, issued by a GS1 Member Organization or by
+the GS1 Global Office, is based on a GS1 Prefix allocated to the issuer. It is
 allocated either to a GS1 user company or to the issuer itself (e.g., for
 issuing individual identification keys).
 
@@ -265,9 +375,9 @@ gs1-co-prefix = uint .size (4..12)
 
 > **LEGEND + NOTES**
 > * If an AI Key ends in `n` then `n` should be replaced with an integer from
-    0-6 implying the decimal position
+    0 to 6 implying the decimal position
 > * If an AI Key ends in `s` then `s` refers to the sequence number and this
-    entry allows for multiple occurences of the AI
+    entry allows for multiple occurrences of the AI
 > * Formats enclosed in square brackets `[]` are optional
 > * Number formats with a fixed size (e.g. `uint .size 6`) must use a fixed
     length integer number padded with zeroes to the left of the number. Example:
@@ -279,9 +389,12 @@ gs1-co-prefix = uint .size (4..12)
     Celsius) may be used
 > * ISO Country Codes should use the numeric code found
     under [ISO 3166](iso3166)
->   * AI 427 (ORIGIN SUBDIVISION) requires an [ISO 3166-2](iso3166) alphanumeric value. For
-  example "AZ" would represent a trade item originating in the state of Arizona
-  within the United States (840) as the country of origin.
+    >
+
+* AI 427 (ORIGIN SUBDIVISION) requires an [ISO 3166-2](iso3166) alphanumeric
+  value. For example, "AZ" would represent a trade item originating in the state
+  of Arizona within the United States (840) as the country of origin.
+
 > * ISO Currency Codes should use the numeric codes found
     under [ISO 4217](iso4217)
 
@@ -354,7 +467,7 @@ gs1-co-prefix = uint .size (4..12)
 | 355n    | Logistic Area, square yards                                                                              | uint .size 6                                               | AREA (yd<sup>2</sup>), log   |
 | 356n    | Net Weight, troy ounces                                                                                  | uint .size 6                                               | NET WEIGHT (t)               |
 | 357n    | Net Weight (or volume), ounces                                                                           | uint .size 6                                               | NET VOLUME (oz)              |
-| 360n    | Net Voluem, quarts                                                                                       | uint .size 6                                               | NET VOLUME (q)               |
+| 360n    | Net Volume, quarts                                                                                       | uint .size 6                                               | NET VOLUME (q)               |
 | 361n    | Net Volume, gallons U.S.                                                                                 | uint .size 6                                               | NET VOLUME (g)               |
 | 362n    | Logistic Volume, quarts                                                                                  | uint .size 6                                               | VOLUME (q), log              |
 | 363n    | Logistic Volume, gallons U.S.                                                                            | uint .size 6                                               | VOLUME (g), log              |
