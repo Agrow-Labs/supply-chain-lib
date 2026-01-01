@@ -23,6 +23,26 @@ chains. These standards were selected for their global usability,
 interoperability, and ability to promote transparent and efficient operations
 across the supply chain.
 
+### Specification-First Scope (What this Repository is Today)
+
+This repository is intentionally **specification-first**.
+
+The primary outputs of this work are:
+
+* A CBOR-friendly structural mapping of GS1 identifiers and related fields
+* A concrete CDDL schema for validation and interoperability
+* Descriptive documentation that explains the mapping approach and design
+  choices
+* Example scenario documents that demonstrate how these identifiers can be
+  applied
+
+While it may be useful in the future to provide optional tooling (encoders,
+decoders, validation helpers, reference implementations), this repository is
+currently focused on defining and stabilizing the specification and examples so
+that independent implementers can build interoperable solutions.
+
+---
+
 ## Chosen Standards
 
 The GS1 General Specifications Standard forms the backbone of our efforts,
@@ -73,7 +93,7 @@ A GLN consists of:
 * **GS1 Company Prefix:** Allocated by a GS1 Member Organization, identifies the
   company (length depends on the number of items the company needs to number).
 * **Location Reference:** Assigned by the company to identify a specific
-  location within their system (e.g. a warehouse, department, or delivery dock)
+  location within their system (e.g., a warehouse, department, or delivery dock)
 * **Check Digit:** A single digit used for error detection, calculated using
   the [Modulo 10 algorithm](https://en.wikipedia.org/wiki/Luhn_algorithm).
 
@@ -94,15 +114,17 @@ A GIAI consists of:
 
 * **GS1 Company Prefix:** Allocated by a GS1 Member Organization, identifies the
   company (length depends on the number of items the company needs to number).
-* A variable length string (letters or numbers) taht is assigned by the company
+* A variable length string (letters or numbers) that is assigned by the company
   to uniquely identify the item in question.
 
 [Retail and Consumer Goods Example](GS1-retail.md)
 
+---
+
 ## Complementary Standards
 
-Following the above standards we feel it is imperative to create a foundation to
-allow developers to create products and facilitate a way for forward-thinking
+Following the above standards, we feel it is imperative to create a foundation
+to allow developers to create products and facilitate a way for forward-thinking
 and future development. To build on these foundational standards, we employ the
 following **GS1** standards within our focus areas:
 
@@ -114,9 +136,46 @@ safety, regulatory compliance, and consumer trust.
 
 #### GS1's EPC Tag Data Standard (TDS)
 
-Utilizes RAIN RFID technology in conjunction with the GLN to enhance the capture
-of item-level information, thereby improving inventory management and global
+Uses RAIN RFID technology in conjunction with the GLN to enhance the capture of
+item-level information, thereby improving inventory management and global
 product tracking within transportation and logistics.
+
+---
+
+## On-chain and Off-chain Considerations (Practical Note)
+
+This specification defines the structure of the data, not the storage policy.
+
+In practice:
+
+* Smaller, identity-centric payloads may be stored directly as on-chain datums.
+* Larger payloads (or payloads that evolve frequently) may be stored off-chain,
+  with cryptographic references anchored on-chain (e.g., hashes, pointers, or
+  other commitment mechanisms).
+* Many real-world supply-chain systems will maintain the canonical record
+  off-chain while using the blockchain as a shared verification layer.
+
+The intent of standardizing a CBOR representation is that, regardless of storage
+strategy, the encoded data remains consistent and interoperable.
+
+---
+
+## Interoperability and Non-Blockchain Participants
+
+Supply chains are inherently multi-party. In real-world traceability systems,
+not every party will use the same technology stack (or use a blockchain at all).
+
+This work is grounded in GS1 identifiers so that:
+
+* Parties who do interact with Cardano can encode and validate the same
+  structures on-chain.
+* Parties who do not use blockchains can still exchange GS1 identifiers and
+  supply-chain metadata in a way that remains consistent with the on-chain
+  representation.
+* The "shared language" remains GS1, not a bespoke schema that only exists in
+  one system.
+
+---
 
 ## Potential Outcomes
 
@@ -137,7 +196,7 @@ product tracking within transportation and logistics.
    in meeting various regulatory requirements across countries and industries.
    This compliance helps in building consumer trust, as the systems enable
    transparent verification of supply chain practices, improving the reputation
-   of businesses utilizing the Cardano blockchain.
+   of businesses using the Cardano blockchain.
 
 ### Challenges
 
@@ -145,12 +204,14 @@ product tracking within transportation and logistics.
    standards like those of GS1 into existing systems poses significant technical
    challenges. Ensuring that the Cardano blockchain can effectively communicate
    and operate with these standards without errors or inconsistencies will
-   require substantial development effort and expertise.
+   require significant development effort and expertise.
 2. **Adoption by Stakeholders**: For the full benefits of GS1 standards
    integration to be realized, widespread adoption by all stakeholders in the
    supply chain is necessary. Convincing stakeholders to adopt new technologies
    and adapt to a blockchain-based system might be challenging due to varying
    levels of technology acceptance and readiness.
+
+---
 
 ## Rationale for Integration
 
@@ -162,8 +223,8 @@ product tracking within transportation and logistics.
   influences over 2 million companies across 25 diverse industries worldwide,
   facilitating operations in 150 countries.
 * **Barcode Recognition**: GS1 barcodes are universally recognized, with more
-  than 1 billion products utilizing these barcodes, which are scanned more than
-  10 billion times each day.
+  than one billion products using these barcodes, which are scanned more than 10
+  billion times each day.
 * **Partnership with ISO**: GS1 collaborates with the International Organization
   for Standardization (ISO) to contribute to the creation of globally recognized
   standards, enhancing interoperability and consistency across international
@@ -196,6 +257,23 @@ regulatory requirements but also builds consumer trust by enabling transparent
 and verifiable supply chain practices. In retail environments, the use of GIAI
 for asset management ensures that consumer goods meet the highest standards of
 quality and safety.
+
+---
+
+## Current Status and Next Steps
+
+This repository is under active development and refinement as part of a funded
+Project Catalyst initiative.
+
+Near-term refinement work includes:
+
+* Formalizing versioning and compatibility rules for GS1 updates
+* Documenting practical sizing constraints for on-chain storage
+* Defining interoperability and data ingestion patterns across ecosystems
+* Aligning recommended practices with Cardano metadata distribution tooling
+* Preparing the specification for stable release and wider adoption
+
+---
 
 ## Closing Thoughts
 
@@ -231,6 +309,8 @@ and regulatory compliance, they also pose challenges, including the technical
 integration of these standards and the need for widespread adoption among
 stakeholders.
 
+---
+
 ## References
 
 * GS1 General Specifications Standard
@@ -250,6 +330,8 @@ stakeholders.
   https://www.iso.org/organization/10067.html
 * GS1 Global Strategy
   https://www.gs1.org/docs/gs1-strategy-booklet.pdf
+
+---
 
 ## License
 
