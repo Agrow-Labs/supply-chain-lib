@@ -61,6 +61,14 @@ interoperably:
 - [CARDANO-METADATA-COMPATIBILITY.md](CARDANO-METADATA-COMPATIBILITY.md)
 - [PUBLISHING-PRACTICES.md](PUBLISHING-PRACTICES.md)
 
+## Regulatory & Sustainability Extensions
+
+This specification supports regulatory and sustainability use cases through
+optional modules that remain separated from the core standard:
+
+- [REGULATORY-AND-SUSTAINABILITY.md](REGULATORY-AND-SUSTAINABILITY.md)
+- [EXTENSIONS.md](EXTENSIONS.md)
+
 
 ## Chosen Standards
 
