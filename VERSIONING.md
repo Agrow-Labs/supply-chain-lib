@@ -33,17 +33,17 @@ MAJOR.MINOR.PATCH
 
 ### Compatibility Rules
 
-* **PATCH** updates MUST be non-breaking.
+* **PATCH** updates **MUST** be non-breaking.
     * clarifications, documentation improvements
     * example corrections
     * editorial fixes
     * additional non-normative guidance
-* **MINOR** updates MUST be backward compatible for decoders.
+* **MINOR** updates **MUST** be backward compatible for decoders.
     * additive changes only
     * optional fields or extension capabilities
     * new example patterns
     * additional recommended guidance that does not invalidate existing payloads
-* **MAJOR** updates MAY be breaking.
+* **MAJOR** updates **MAY** be breaking.
     * structural changes that make previously valid payloads ambiguous or
       invalid
     * changes to canonical encoding rules
@@ -58,9 +58,9 @@ This specification currently references:
 
 * GS1 General Specifications, Release **24.0**
 
-The gs1_release value is not intended to be updated frequently. When GS1 issues
-a new release, compatibility must be considered carefully, particularly when GS1
-introduces new Application Identifiers or modifies constraints.
+The `gs1_release` value is not intended to be updated frequently. When GS1
+issues a new release, compatibility must be considered carefully, particularly
+when GS1 introduces new Application Identifiers or modifies constraints.
 
 ## Backward Compatibility Commitment
 
@@ -69,11 +69,25 @@ remain interpretable.
 
 Accordingly:
 
-* Implementations SHOULD treat unknown additional fields (or unknown AIs) as
+* Implementations **SHOULD** treat unknown additional fields (or unknown AIs) as
   ignorable unless those fields are explicitly required by the `schema_version`
   in use.
-* Encoders SHOULD NOT re-encode historical payloads under a different
+* Encoders **SHOULD NOT** re-encode historical payloads under a different
   `schema_version` unless the intent is explicitly to migrate and republish.
+
+## Deprecation Policy
+
+This specification may deprecate fields, structures, or guidance over time.
+
+* Deprecations **MUST** be documented explicitly in the changelog or release
+  notes for the `schema_version` in which they occur.
+* Deprecated fields **SHOULD** remain decodable for at least one **MAJOR**
+  version window to preserve the interpretability of historical payloads.
+* Encoders **SHOULD** avoid producing newly deprecated fields once a deprecation
+  is published, unless required for backward compatibility with existing
+  systems.
+* Removals of deprecated fields **MAY** only occur in a **MAJOR**
+  `schema_version` update.
 
 ## Canonical Encoding Stability
 
@@ -83,8 +97,8 @@ Because on-chain usage depends on stable binary encoding and reproducible
 hashes:
 
 * Changes to canonicalization rules (ordering rules, definite-length
-  requirements, integer encoding constraints, or tag usage) MUST only occur in a
-  MAJOR schema_version update.
+  requirements, integer encoding constraints, or tag usage) **MUST** only occur
+  in a **MAJOR** schema_version update.
 
 ## Where Version Fields Appear
 
