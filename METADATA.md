@@ -20,7 +20,7 @@ This value is derived deterministically from:
 SHA-256("cardano-gs1-metadata-spec")
 ```
 
-and then converting the first 7 hex characters to a decimal integer.
+and then converting the first seven hex characters to a decimal integer.
 
 Implementations **SHOULD** use this label when publishing “generic GS1 payloads”
 that are not already namespaced under an application-specific label.
@@ -51,12 +51,12 @@ publishing envelope and store only the canonical GS1 AI map.
 
 This is typically safe because the interpretation of a datum is already
 constrained by the validator and script context in which it appears. In other
-words, the script address and validator logic implicitly define how the datum is
-interpreted and validated.
+words, the script address and validator logic implicitly defines how the datum
+is interpreted and validated.
 
 In contrast, transaction metadata is globally visible and context-free, and
-therefore SHOULD include the publishing envelope in order to remain
-self-describing and interoperable across independent consumers and indexers.
+therefore SHOULD include the publishing envelope to remain self-describing and
+interoperable across independent consumers and indexers.
 
 Implementations MAY choose to use the same envelope format inside a datum when a
 self-describing datum is desirable, but this is not required by this
@@ -70,14 +70,16 @@ This pattern is used when the GS1 payload is small enough to publish directly.
 
 ```json
 {
-  "standard": "gs1",
-  "schema_version": "1.0.0",
-  "gs1_release": "24.0",
-  "payload": {
-    "01": "12341234567893",
-    "10": "ABC12345",
-    "17": "241122",
-    "30": "50"
+  "163532014": {
+    "standard": "gs1",
+    "schema_version": "1.0.0",
+    "gs1_release": "24.0",
+    "payload": {
+      "01": "12341234567893",
+      "10": "ABC12345",
+      "17": "241122",
+      "30": "50"
+    }
   }
 }
 ```
@@ -101,15 +103,17 @@ where the full record can be retrieved.
 
 ```json 
 {
-  "standard": "gs1",
-  "schema_version": "1.0.0",
-  "gs1_release": "24.0",
-  "payload": {
-    "type": "anchor",
-    "hash_alg": "blake2b-256",
-    "hash_hex": "d34db33fd34db33fd34db33fd34db33fd34db33fd34db33fd34db33fd34db33f",
-    "uri": "ipfs://CID_GOES_HERE",
-    "content_type": "application/cbor"
+  "163532014": {
+    "standard": "gs1",
+    "schema_version": "1.0.0",
+    "gs1_release": "24.0",
+    "payload": {
+      "type": "anchor",
+      "hash_alg": "blake2b-256",
+      "hash_hex": "d34db33fd34db33fd34db33fd34db33fd34db33fd34db33fd34db33fd34db33f",
+      "uri": "ipfs://CID_GOES_HERE",
+      "content_type": "application/cbor"
+    }
   }
 }
 ```
@@ -143,7 +147,7 @@ Version fields exist to ensure payloads remain interpretable over time.
 
 Consumers SHOULD:
 
-- read and interpret schema_version to determine decoding expectations
-- read and interpret gs1_release as the GS1 reference baseline
+- read and interpret `schema_version` to determine decoding expectations
+- read and interpret `gs1_release` as the GS1 reference baseline
 - treat unknown additional envelope fields as ignorable unless required by a
-  particular schema_version
+  particular `schema_version`
