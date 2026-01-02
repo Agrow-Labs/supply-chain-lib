@@ -51,8 +51,8 @@ publishing envelope and store only the canonical GS1 AI map.
 
 This is typically safe because the interpretation of a datum is already
 constrained by the validator and script context in which it appears. In other
-words, the script address and validator logic implicitly defines how the datum
-is interpreted and validated.
+words, the script address and validator logic implicitly define how the datum is
+interpreted and validated.
 
 In contrast, transaction metadata is globally visible and context-free, and
 therefore SHOULD include the publishing envelope to remain self-describing and
@@ -126,7 +126,7 @@ anchored payload (see [GS1.md](GS1.md) canonical encoding rules).
 The URI field is intentionally flexible. Implementations may use IPFS, HTTP(S),
 Arweave, or any other retrieval layer, so long as the hash remains verifiable.
 
-## Guidance on Choosing Full vs Anchor Publishing
+## Guidance on Choosing Full vs. Anchor Publishing
 
 As a general rule:
 
