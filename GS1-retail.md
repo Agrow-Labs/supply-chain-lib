@@ -13,16 +13,12 @@ crate, we can track the progress of the shipment throughout the supply chain.
   shipment.
 * After emptying the crate, it is returned to the supplier for reuse.
 
----
-
 ## Scenario Description
 
 This scenario represents asset-level traceability within a retail environment,
 where the same physical container (identified by a GIAI) is reused across
 multiple shipments while maintaining linkage to the underlying product and its
 batch identity.
-
----
 
 ## Details
 
@@ -31,8 +27,6 @@ batch identity.
 * **Batch/Lot Number:** ABC12345
 * **GLN of Store Location:** 9876543210987 (_Springfield Grocery Store_)
 * **GIAI:** 12345678901234567890 (_Reusable Crate ID_)
-
----
 
 ## GS1 Fields Used
 
@@ -43,15 +37,11 @@ batch identity.
 | 10    | BATCH/LOT | ABC12345             |
 | 8004  | GIAI      | 12345678901234567890 |
 
----
-
 ## GS1 Data Matrix
 
 ```
 (01)12341234567893(414)9876543210987(10)ABC12345(8004)12345678901234567890
 ```
-
----
 
 ## JSON Representation
 
@@ -64,8 +54,6 @@ batch identity.
 }
 ```
 
----
-
 ## CBOR Representation (Conceptual)
 
 ```cbor
@@ -76,8 +64,6 @@ batch identity.
   8004: "12345678901234567890"
 }
 ```
-
----
 
 ## Canonical CBOR Encoding (Deterministic)
 
@@ -107,8 +93,6 @@ a4
 a4016e31323334313233343536373839330a68414243313233343519019e6d39383736353433323130393837191f446a3132333435363738393031323334353637383930
 ```
 
---- 
-
 ## Human-Readable Display
 
 ```
@@ -118,7 +102,28 @@ LOC No: 9876543210987
 GIAI: 12345678901234567890
 ```
 
----
+## Transaction Metadata Envelope (Recommended)
+
+When publishing this example using Cardano transaction metadata, the GS1 payload
+may be wrapped in the recommended publishing envelope (see
+[METADATA.md](METADATA.md)) and published under the recommended metadata label
+`163532014`.
+
+```json
+{
+  "163532014": {
+    "standard": "gs1",
+    "schema_version": "1.0.0",
+    "gs1_release": "24.0",
+    "payload": {
+      "01": "12341234567893",
+      "10": "ABC12345",
+      "414": "9876543210987",
+      "8004": "12345678901234567890"
+    }
+  }
+}
+```
 
 ## Interoperability Notes
 
@@ -127,6 +132,6 @@ remaining interoperable across independent systems. The same structure may be
 exchanged between blockchain-based and non-blockchain participants, with the
 blockchain serving as a shared verification layer when appropriate.
 
-As with the other examples, storage strategy (on-chain datum vs. off-chain record
-with on-chain reference) is implementation-dependent and driven by payload size,
-update frequency, and application requirements.
+As with the other examples, storage strategy (on-chain datum vs. off-chain
+record with on-chain reference) is implementation-dependent and driven by
+payload size, update frequency, and application requirements.
