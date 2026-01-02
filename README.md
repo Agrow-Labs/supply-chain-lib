@@ -41,8 +41,6 @@ decoders, validation helpers, reference implementations), this repository is
 currently focused on defining and stabilizing the specification and examples so
 that independent implementers can build interoperable solutions.
 
----
-
 ## Chosen Standards
 
 The GS1 General Specifications Standard forms the backbone of our efforts,
@@ -119,8 +117,6 @@ A GIAI consists of:
 
 [Retail and Consumer Goods Example](GS1-retail.md)
 
----
-
 ## Complementary Standards
 
 Following the above standards, we feel it is imperative to create a foundation
@@ -140,8 +136,6 @@ Uses RAIN RFID technology in conjunction with the GLN to enhance the capture of
 item-level information, thereby improving inventory management and global
 product tracking within transportation and logistics.
 
----
-
 ## On-chain and Off-chain Considerations (Practical Note)
 
 This specification defines the structure of the data, not the storage policy.
@@ -158,8 +152,6 @@ In practice:
 The intent of standardizing a CBOR representation is that, regardless of storage
 strategy, the encoded data remains consistent and interoperable.
 
----
-
 ## Interoperability and Non-Blockchain Participants
 
 Supply chains are inherently multi-party. In real-world traceability systems,
@@ -174,8 +166,6 @@ This work is grounded in GS1 identifiers so that:
   representation.
 * The "shared language" remains GS1, not a bespoke schema that only exists in
   one system.
-
----
 
 ## Potential Outcomes
 
@@ -210,8 +200,6 @@ This work is grounded in GS1 identifiers so that:
    supply chain is necessary. Convincing stakeholders to adopt new technologies
    and adapt to a blockchain-based system might be challenging due to varying
    levels of technology acceptance and readiness.
-
----
 
 ## Rationale for Integration
 
@@ -258,8 +246,6 @@ and verifiable supply chain practices. In retail environments, the use of GIAI
 for asset management ensures that consumer goods meet the highest standards of
 quality and safety.
 
----
-
 ## Current Status and Next Steps
 
 This repository is under active development and refinement as part of a funded
@@ -272,8 +258,6 @@ Near-term refinement work includes:
 * Defining interoperability and data ingestion patterns across ecosystems
 * Aligning recommended practices with Cardano metadata distribution tooling
 * Preparing the specification for stable release and wider adoption
-
----
 
 ## Closing Thoughts
 
@@ -309,8 +293,6 @@ and regulatory compliance, they also pose challenges, including the technical
 integration of these standards and the need for widespread adoption among
 stakeholders.
 
----
-
 ## References
 
 * GS1 General Specifications Standard
@@ -330,8 +312,6 @@ stakeholders.
   https://www.iso.org/organization/10067.html
 * GS1 Global Strategy
   https://www.gs1.org/docs/gs1-strategy-booklet.pdf
-
----
 
 ## License
 
