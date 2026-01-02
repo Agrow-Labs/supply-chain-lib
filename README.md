@@ -52,6 +52,16 @@ see:
 - [INGESTION-PATTERNS.md](INGESTION-PATTERNS.md) — standard ingestion workflows
   for ERP, IoT/logistics, and oracle/data availability services
 
+## Metadata Compatibility & Publishing
+
+Guidance for integrating GS1 metadata with existing Cardano token, NFT, and
+metadata infrastructure, and for publishing GS1 records safely and
+interoperably:
+
+- [CARDANO-METADATA-COMPATIBILITY.md](CARDANO-METADATA-COMPATIBILITY.md)
+- [PUBLISHING-PRACTICES.md](PUBLISHING-PRACTICES.md)
+
+
 ## Chosen Standards
 
 The GS1 General Specifications Standard forms the backbone of our efforts,

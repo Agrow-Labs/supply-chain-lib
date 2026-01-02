@@ -133,7 +133,7 @@ As a general rule:
 - Use **Full Payload** when:
     - the payload is small and identity-centric
     - the intent is to publish a compact, self-contained record
-- Use Anchor when:
+- Use **Anchor** when:
     - the payload is large (event histories, documents, certificates, DPP data)
     - the payload evolves frequently
     - the publisher wants a predictable on-chain footprint
@@ -151,3 +151,8 @@ Consumers SHOULD:
 - read and interpret `gs1_release` as the GS1 reference baseline
 - treat unknown additional envelope fields as ignorable unless required by a
   particular `schema_version`
+
+## Related Documents
+
+- [CARDANO-METADATA-COMPATIBILITY.md](CARDANO-METADATA-COMPATIBILITY.md)
+- [PUBLISHING-PRACTICES.md](PUBLISHING-PRACTICES.md)
