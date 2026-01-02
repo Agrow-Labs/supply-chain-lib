@@ -10,8 +10,6 @@ This specification is based on
 the [GS1 General Specifications, Release 24.0](https://ref.gs1.org/standards/genspecs/)
 which were released in January 2024 and are the most recent as of this writing.
 
----
-
 ## Specification Scope and Intent
 
 This document is part of a **specification-first** effort to define a stable,
@@ -26,7 +24,13 @@ Future tooling (such as encoder/decoder libraries or validation utilities) may
 be introduced in later phases, but the primary focus of this repository is the
 definition and stabilization of the specification itself.
 
----
+## Versioning and Publishing Guidance
+
+This repository defines versioning and compatibility rules
+in [VERSIONING.md](VERSIONING.md).
+
+For transaction metadata publishing guidance (including a recommended metadata
+label and full-vs-anchor patterns), see [METADATA.md](METADATA.md).
 
 ## A Tale of Two Datas
 
@@ -62,8 +66,6 @@ systems and facets of the supply and logistics chains for commerce.
 The standards defined here will initially focus on the General Specifications
 and some of the more specific standards to target unique industries.
 
----
-
 ## On-chain and Off-chain Data Model
 
 This specification defines the **structure of the data**, not the storage
@@ -81,8 +83,6 @@ In practice:
 The intent of standardizing a CBOR representation is that, regardless of storage
 strategy, the encoded data remains consistent and interoperable across systems.
 
----
-
 ## Interoperability and Non-Blockchain Participants
 
 Supply chains are inherently multi-party. In real-world traceability systems,
@@ -98,8 +98,6 @@ This work is grounded in GS1 identifiers so that:
   representation.
 * The shared language remains GS1, not a bespoke schema limited to a single
   system or platform.
-
----
 
 ## Canonical CBOR Encoding Rules
 
@@ -138,7 +136,9 @@ These rules ensure that:
 All examples in this repository that include CBOR or hex-encoded CBOR are
 expected to conform to these canonical encoding rules.
 
----
+Versioning fields (e.g., `schema_version`, `gs1_release`) are intended to be
+used in publishing envelopes (such as transaction metadata) and are documented
+in [VERSIONING.md](VERSIONING.md) and [METADATA.md](METADATA.md).
 
 ### Application Identifier (AI) Key Encoding
 
@@ -151,8 +151,6 @@ representing the value.
 
 This requirement ensures deterministic map ordering, stable binary encoding, and
 consistent hashing behavior across independent implementations.
-
----
 
 ## Limitations
 
@@ -374,8 +372,8 @@ gs1-co-prefix = uint .size (4..12)
 ### Application Identifiers (AI)
 
 > **LEGEND + NOTES**
-> * If an AI Key ends in `n` then `n` should be replaced with an integer from
-    0 to 6 implying the decimal position
+> * If an AI Key ends in `n` then `n` should be replaced with an integer from 0
+    to 6 implying the decimal position
 > * If an AI Key ends in `s` then `s` refers to the sequence number and this
     entry allows for multiple occurrences of the AI
 > * Formats enclosed in square brackets `[]` are optional

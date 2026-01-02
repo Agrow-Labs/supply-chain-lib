@@ -11,8 +11,6 @@ date, and a quantity.
 
 The examples below record a crate of apples harvested at a farm.
 
----
-
 ## Scenario Description
 
 This scenario represents a simple traceability event where a harvested product
@@ -21,8 +19,6 @@ is to demonstrate how commonly used GS1 fields can be expressed in a consistent,
 machine-readable form that can be encoded into CBOR, stored on-chain as a datum
 or referenced from off-chain storage, and exchanged between independent
 participants.
-
----
 
 ## GS1 Fields Used
 
@@ -33,15 +29,11 @@ participants.
 | 17    | USE BY OR EXPIRY | 241122         |
 | 30    | VAR. COUNT       | 50             |
 
----
-
 ## GS1 Data Matrix
 
 ```
 (01)12341234567893(10)ABC12345(17)241231(30)50
 ```
-
----
 
 ## JSON Representation
 
@@ -53,8 +45,6 @@ participants.
   "30": "50"
 }
 ```
-
----
 
 ## CBOR Representation (Conceptual)
 
@@ -69,8 +59,6 @@ participants.
 
 > Note: The CBOR form shown here is conceptual. The concrete binary encoding
 > follows directly from the defined CDDL schema and the chosen CBOR encoder.
-
---- 
 
 ## Canonical CBOR Encoding (Deterministic)
 
@@ -131,8 +119,6 @@ This encoding uses:
 - minimal-width integer encodings
 - no semantic tags
 
----
-
 ## Human-Readable Display
 
 ```
@@ -142,7 +128,28 @@ USE BY OR EXPIRY: 2024-11-22
 VAR. COUNT: 50
 ```
 
----
+## Transaction Metadata Envelope (Recommended)
+
+When publishing this example using Cardano transaction metadata, the GS1 payload
+may be wrapped in the recommended publishing envelope (see
+[METADATA.md](METADATA.md)) and published under the recommended metadata label
+`163532014`.
+
+```json
+{
+  "163532014": {
+    "standard": "gs1",
+    "schema_version": "1.0.0",
+    "gs1_release": "24.0",
+    "payload": {
+      "01": "12341234567893",
+      "10": "ABC12345",
+      "17": "241122",
+      "30": "50"
+    }
+  }
+}
+```
 
 ## Interoperability Notes
 

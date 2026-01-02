@@ -12,15 +12,11 @@ both the source product and its movements throughout the supply chain.
 * SSCC (00) is the shipment identifier and tracks the shipment container (pallet
   or crate)
 
----
-
 ## Scenario Description
 
 A shipment is prepared at the farm and transferred to the cider mill. The
 shipment is tracked as a distinct logistics unit while preserving its linkage to
 the underlying agricultural product and its batch identity.
-
----
 
 ## GS1 Fields Used
 
@@ -32,15 +28,11 @@ the underlying agricultural product and its batch identity.
 | 00    | SSCC         | 003456789012345678 |
 | 10    | BATCH/LOT    | ABC12345           |
 
----
-
 ## GS1 Data Matrix
 
 ```
 (01)12341234567893(414)9876543210987(413)1234567890123(00)003456789012345678(10)ABC12345
 ```
-
----
 
 ## JSON Representation
 
@@ -54,8 +46,6 @@ the underlying agricultural product and its batch identity.
 }
 ```
 
----
-
 ## CBOR Representation (Conceptual)
 
 ```cbor 
@@ -67,8 +57,6 @@ the underlying agricultural product and its batch identity.
   414: "9876543210987"
 }
 ```
-
----
 
 ## Canonical CBOR Encoding (Deterministic)
 
@@ -99,8 +87,6 @@ a5
 a50072303033343536373839303132333435363738016e31323334313233343536373839330a68414243313233343519019d6d3132333435363738393031323319019e6d39383736353433323130393837
 ```
 
----
-
 ## Human-Readable Display
 
 ```
@@ -111,7 +97,29 @@ SHIP FOR LOC: 1234567890123
 LOC No.: 9876543210987
 ```
 
---- 
+## Transaction Metadata Envelope (Recommended)
+
+When publishing this example using Cardano transaction metadata, the GS1 payload
+may be wrapped in the recommended publishing envelope (see
+[METADATA.md](METADATA.md)) and published under the recommended metadata label
+`163532014`.
+
+```json
+{
+  "163532014": {
+    "standard": "gs1",
+    "schema_version": "1.0.0",
+    "gs1_release": "24.0",
+    "payload": {
+      "00": "003456789012345678",
+      "01": "12341234567893",
+      "10": "ABC12345",
+      "413": "1234567890123",
+      "414": "9876543210987"
+    }
+  }
+}
+```
 
 ## Interoperability Notes
 
