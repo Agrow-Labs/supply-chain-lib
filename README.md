@@ -41,6 +41,17 @@ decoders, validation helpers, reference implementations), this repository is
 currently focused on defining and stabilizing the specification and examples so
 that independent implementers can build interoperable solutions.
 
+## Interoperability & Integration
+
+This specification is intended to be usable across heterogeneous enterprise and
+ecosystem environments. For interoperability guidance and ingestion workflows,
+see:
+
+- [INTEROPERABILITY.md](INTEROPERABILITY.md) — actor roles, trust boundaries,
+  and interaction models
+- [INGESTION-PATTERNS.md](INGESTION-PATTERNS.md) — standard ingestion workflows
+  for ERP, IoT/logistics, and oracle/data availability services
+
 ## Chosen Standards
 
 The GS1 General Specifications Standard forms the backbone of our efforts,
