@@ -100,6 +100,70 @@ If a compressed form is published, the anchor MUST specify:
 * content type
 * whether the hash applies to the compressed or uncompressed form
 
+## **Hybrid Pattern: On-Chain Identity + Off-Chain Events**
+
+In most real-world supply-chain systems, the *identity* of an asset is
+relatively stable, while the *history* of that asset grows continuously over
+time. Attempting to store both identity and full event history on-chain leads to
+unbounded datum growth, higher transaction costs, and unnecessary UTxO churn.
+
+This specification therefore recommends a **hybrid storage pattern**:
+
+> **Store state on-chain. Store history off-chain. Anchor history on-chain.**
+
+### On-Chain: Identity Core (Inline Datum)
+
+The inline datum should contain only the minimal GS1 identity fields required to
+establish the asset’s identity and current state, such as:
+
+* GTIN (01)
+* Batch/Lot (10)
+* Serial (21), when applicable
+* Optional: GIAI (8004) for reusable assets
+* Optional: current owner/location fields when required for validation
+
+This identity core remains compact, stable, and inexpensive to validate.
+
+### Off-Chain: Event History and Documents
+
+All append-heavy data should be maintained off-chain, including:
+
+* custody transfers
+* logistics events
+* inspections and certifications
+* sensor logs
+* regulatory or compliance documents
+
+This data may grow arbitrarily large without affecting on-chain storage costs.
+
+### On-Chain Anchor: Verifiable Link to History
+
+Each off-chain record update is anchored on-chain using an **anchor object**
+containing:
+
+* cryptographic hash of the off-chain record
+* content type
+* retrieval URI
+* optional sequencing or version fields
+
+The anchor may be published:
+
+* in transaction metadata (recommended for discoverability and low churn), or
+* within the datum itself when the validator must enforce state continuity.
+
+### Storage and Performance Implications
+
+Using the hybrid model:
+
+* the inline datum remains small and stable (typically tens to low hundreds of
+  bytes),
+* the anchor metadata remains small and constant,
+* the off-chain record may grow arbitrarily without increasing UTxO costs.
+
+This approach minimizes transaction fees, avoids unnecessary UTxO bloat, and
+preserves a strong cryptographic linkage between on-chain state and off-chain
+history.
+
 ## Recommended Project Thresholds (Non-Normative)
 
 For reliability and interoperability, implementations SHOULD define
@@ -129,6 +193,9 @@ All size references in this repository should be based on:
 The helper tool in [tools/size_check.py](tools/size_check.py) is intended to
 support consistent and repeatable measurement across scenarios.
 
+The following measurements reflect the storage implications of the patterns
+described above, including the hybrid model.
+
 ## Representative Size Measurements (Canonical CBOR)
 
 The following measurements were produced using canonical/deterministic CBOR
@@ -153,3 +220,20 @@ measuring metadata records.
 These measurements demonstrate that the anchor method keeps the on-chain
 footprint stable even as the underlying trace record grows.
 
+### Hybrid On-Chain Cost Summary
+
+Using the hybrid model, the total on-chain footprint is the sum of:
+
+- the inline datum containing the GS1 identity core, and
+- the anchor metadata record published with each update.
+
+Based on representative measurements:
+
+| Component                               | Size (CBOR bytes)  |
+|-----------------------------------------|--------------------|
+| Inline identity datum                   | ~40–136            |
+| Anchor metadata record                  | 235                |
+| **Total on-chain footprint per update** | **~275–371 bytes** |
+
+The associated off-chain trace record may grow into kilobytes or megabytes
+without affecting on-chain storage costs.
