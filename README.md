@@ -1,6 +1,19 @@
 # Standardized Supply Chains Library
 
 [![CC BY 4.0][cc-by-shield]][cc-by]
+![Standard Version](https://img.shields.io/badge/Standard-v0.9.0--rc1-blue)
+![GS1 Compatibility](https://img.shields.io/badge/GS1-Release%2024.0-green)
+
+## Standard Versioning
+
+This repository follows semantic versioning for the GS1 metadata standard.
+
+- **Current Pre-Release:** `v0.9.0-rc1`
+- **Target Stable Release:** `v1.0.0`
+- **GS1 Compatibility:** GS1 General Specifications Release 24.0
+
+Changes that affect encoding rules, data models, or compatibility guarantees
+will only occur in major version updates.
 
 ## Introduction
 
