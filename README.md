@@ -1,16 +1,19 @@
 # Standardized Supply Chains Library
 
 [![CC BY 4.0][cc-by-shield]][cc-by]
-![Standard Version](https://img.shields.io/badge/Standard-v0.9.0--rc1-blue)
+![Standard Version](https://img.shields.io/badge/Standard-v1.0.0-blue)
 ![GS1 Compatibility](https://img.shields.io/badge/GS1-Release%2024.0-green)
 
 ## Standard Versioning
 
 This repository follows semantic versioning for the GS1 metadata standard.
 
-- **Current Pre-Release:** `v0.9.0-rc1`
-- **Target Stable Release:** `v1.0.0`
+- **Current Stable Release:** `v1.0.0`
 - **GS1 Compatibility:** GS1 General Specifications Release 24.0
+
+This release represents the first stable version of the Standardized Supply
+Chain Library specification, incorporating peer review feedback and community
+working group consensus.
 
 Changes that affect encoding rules, data models, or compatibility guarantees
 will only occur in major version updates.
@@ -288,19 +291,26 @@ and verifiable supply chain practices. In retail environments, the use of GIAI
 for asset management ensures that consumer goods meet the highest standards of
 quality and safety.
 
-## Current Status and Next Steps
+## Current Status
 
-This repository is under active development and refinement as part of a funded
-Project Catalyst initiative.
+This specification has reached its first stable release (`v1.0.0`) as part of a
+funded Project Catalyst initiative (Fund 11, Proposal #1100071).
 
-Near-term refinement work includes:
+The v1.0.0 release reflects:
 
-* Formalizing versioning and compatibility rules for GS1 updates
-* Documenting practical sizing constraints for on-chain storage
-* Defining interoperability and data ingestion patterns across ecosystems
-* Aligning recommended practices with Cardano metadata distribution tooling
-* Preparing the specification for stable release and wider adoption
+* Peer-reviewed and community-validated GS1 metadata mappings
+* Formalized versioning and compatibility rules for GS1 updates
+* Documented sizing constraints for on-chain storage (UTxO sizing)
+* Defined interoperability and data ingestion patterns across ecosystems
+* Alignment with Cardano metadata distribution tooling and publishing practices
+* Extension framework for regulatory and sustainability modules
 
+### Future Work
+
+* Submission as a Cardano Improvement Proposal (CIP) if applicable
+* Optional reference implementations (encoders, decoders, validators)
+* Continued alignment with future GS1 General Specification releases
+* Community adoption and integration support
 ## Closing Thoughts
 
 The integration of GS1 standards into the Cardano blockchain allows for a
